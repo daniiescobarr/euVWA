@@ -1,0 +1,78 @@
+name: DevSecOps Vulnerable Pipeline
+
+on:
+  push:
+    branches:
+      - vulnerable
+      - main
+
+jobs:
+  security-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: ./vulnerable
+        run: npm install
+
+      - name: Install ESLint Security
+        working-directory: ./vulnerable
+        run: |
+          npm install eslint eslint-plugin-security --save-dev
+
+      - name: Run ESLint Security Scan
+        working-directory: ./vulnerable
+        run: |
+          npx eslint . || true
+
+      - name: Run Semgrep SAST
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: p/security-audit
+
+      - name: Build Vulnerable Docker Image
+        working-directory: ./vulnerable
+        run: |
+          docker build -t euvwa-vulnerable .
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          image: euvwa-vulnerable
+          format: cyclonedx-json
+          output-file: sbom-vulnerable.json
+
+      - name: Trivy Filesystem Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: ./vulnerable
+          severity: HIGH,CRITICAL
+          exit-code: 1
+
+      - name: Trivy Docker Image Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: euvwa-vulnerable
+          severity: HIGH,CRITICAL
+          exit-code: 1
+
+      - name: Start Vulnerable Application
+        working-directory: ./vulnerable
+        run: |
+          npm start &
+          sleep 20
+
+      - name: OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: 'http://localhost:3000'

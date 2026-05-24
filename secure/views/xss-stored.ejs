@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>XSS Almacenado</title>
+    </head>
+    <body>
+
+        <h1>XSS almacenado vulnerable</h1>
+
+        <form method="POST" action="/xss-stored">
+            <label>Nombre:</label>
+            <input type="text" name="name">
+
+            <br><br>
+
+            <label>Comentario:</label>
+            <textarea name="comment"></textarea>
+
+            <br><br>
+
+            <button type="submit">Guardar comentario</button>
+        </form>
+
+        <hr>
+
+        <h2>Comentarios:</h2>
+
+        <% comments.forEach(c => { %>
+           <div style="border:1px solid black; margin:10px; padding:10px;">
+                <strong><%= c.name %></strong><strong>
+
+                <p><%= c.comment %></p>
+
+           </div>
+        <% }) %>
+
+        <p><a href="/">Volver al inicio</a></p>
+    </body>
+</html>

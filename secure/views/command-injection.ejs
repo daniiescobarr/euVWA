@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Command Injection</title>
+</head>
+<body>
+
+    <h1>Command Injection vulnerable</h1>
+
+    <form method="POST" action="/command-injection">
+        <label>Introduce una IP o dominio:</label>
+        <input type="text" name="target" placeholder="127.0.0.1">
+        <button type="submit">Ejecutar ping</button>
+    </form>
+
+    <% if (typeof command !== 'undefined') { %>
+        <h3>Comando ejecutado:</h3>
+        <pre><%= command %></pre>
+    <% } %>
+
+    <% if (typeof output !== 'undefined') { %>
+        <h3>Resultado:</h3>
+        <pre><%= output %></pre>
+    <% } %>
+
+    <p><a href="/">Volver al inicio</a></p>
+
+</body>
+</html>

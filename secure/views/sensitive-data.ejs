@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sensitive Data Exposure</title>
+</head>
+<body>
+
+    <h1>Exposición de datos sensibles</h1>
+
+    <p>Versión segura sin exposición de información crítica.</p>
+
+    <h2>Usuarios registrados</h2>
+
+    <table border="1" cellpadding="8">
+
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Rol</th>
+        </tr>
+
+        <% users.forEach(user => { %>
+
+            <tr>
+                <td><%= user.id %></td>
+                <td><%= user.username %></td>
+                <td><%= user.role %></td>
+            </tr>
+
+        <% }) %>
+
+    </table>
+
+    <br>
+
+    <a href="/">Volver al inicio</a>
+
+</body>
+</html>

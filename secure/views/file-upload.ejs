@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload vulnerable</title>
+</head>
+<body>
+
+    <h1>Subida insegura de archivos</h1>
+
+    <form method="POST" action="/file-upload" enctype="multipart/form-data">
+        <label>Selecciona un archivo:</label>
+        <input type="file" name="file">
+        <button type="submit">Subir</button>
+    </form>
+
+    <% if (typeof file !== 'undefined') { %>
+        <h3>Archivo subido correctamente:</h3>
+        <p>Nombre: <%= file.filename %></p>
+        <p>Ruta pública:</p>
+        <a href="/uploads/<%= file.filename %>" target="_blank">
+            /uploads/<%= file.filename %>
+        </a>
+    <% } %>
+
+    <p><a href="/">Volver al inicio</a></p>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Security Misconfiguration</title>
+</head>
+<body>
+
+    <h1>Security Misconfiguration vulnerable</h1>
+
+    <p>
+        Esta página simula una mala configuración de seguridad mostrando errores internos del servidor.
+    </p>
+
+    <form method="POST" action="/misconfiguration">
+        <button type="submit">Provocar error</button>
+    </form>
+
+    <% if (typeof error !== 'undefined') { %>
+        <h2>Error interno expuesto</h2>
+
+        <pre><%= error %></pre>
+    <% } %>
+
+    <h2>Cabeceras de seguridad ausentes</h2>
+
+    <ul>
+        <li>No se usa Helmet</li>
+        <li>No hay Content Security Policy</li>
+        <li>No hay protección X-Frame-Options</li>
+        <li>Modo desarrollo expuesto</li>
+    </ul>
+
+    <p><a href="/">Volver al inicio</a></p>
+
+</body>
+</html>

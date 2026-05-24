@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>XSS Reflejado</title>
+    </head>
+    <body>
+        <h1>XSS Reflejado Vulnerable</h1>
+
+        <form method="GET" action="/xss-reflected">
+            <label>Buscar:</label>
+            <input type="text" name="search">
+            <button type="submit">Buscar</button>
+        </form>
+
+        <hr>
+
+        <% if (typeof search !== 'undefined') { %>
+            <h3>Resultado de busqueda:</h3>
+            <p>Has buscado:</p>
+
+            <div>
+                <%- search %>
+            </div>
+        <% } %>
+
+        <p><a href="/">Volver al inicio</a></p>
+    </body>
+</html>

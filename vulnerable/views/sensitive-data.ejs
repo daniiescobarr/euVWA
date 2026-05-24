@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sensitive Data Exposure</title>
+</head>
+<body>
+
+    <h1>Exposición de datos sensibles</h1>
+
+    <p>Esta página muestra información sensible de forma insegura.</p>
+
+    <h2>Usuarios registrados</h2>
+
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Contraseña</th>
+            <th>Rol</th>
+        </tr>
+
+        <% users.forEach(user => { %>
+            <tr>
+                <td><%= user.id %></td>
+                <td><%= user.username %></td>
+                <td><%= user.password %></td>
+                <td><%= user.role %></td>
+            </tr>
+        <% }) %>
+    </table>
+
+    <h2>Información interna del servidor</h2>
+
+    <pre>
+Ruta del proyecto: <%= projectPath %>
+Entorno: development
+Clave API simulada: API_KEY_123456_INSEGURA
+    </pre>
+
+    <p><a href="/">Volver al inicio</a></p>
+
+</body>
+</html>

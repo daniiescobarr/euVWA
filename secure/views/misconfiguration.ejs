@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Security Misconfiguration</title>
+</head>
+<body>
+
+    <h1>Security Misconfiguration Corregida</h1>
+
+    <p>
+       Esta versión no expone trazas internas del servidor y utiliza cabeceras de seguridad mediante Helmet.
+    </p>
+
+    <form method="POST" action="/misconfiguration">
+        <button type="submit">Provocar error</button>
+    </form>
+
+    <% if (typeof error !== 'undefined') { %>
+        <h2>Error interno expuesto</h2>
+
+        <pre><%= error %></pre>
+    <% } %>
+
+    <h2>Cabeceras de seguridad corregidas</h2>
+
+    <ul>
+        <li>Usa Helmet</li>
+        <li>Hay Content Security Policy</li>
+        <li>Hay protección X-Frame-Options</li>
+        <li>Modo desarrollo no expuesto</li>
+    </ul>
+
+    <p><a href="/">Volver al inicio</a></p>
+
+</body>
+</html>
