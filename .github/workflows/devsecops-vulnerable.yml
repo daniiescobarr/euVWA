@@ -3,15 +3,15 @@ name: DevSecOps Vulnerable Pipeline
 on:
   push:
     branches:
-      - vulnerable
       - main
+      - vulnerable
+  workflow_dispatch:
 
 jobs:
   security-pipeline:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -26,24 +26,21 @@ jobs:
 
       - name: Install ESLint Security
         working-directory: ./vulnerable
-        run: |
-          npm install eslint eslint-plugin-security --save-dev
+        run: npm install eslint eslint-plugin-security --save-dev
 
       - name: Run ESLint Security Scan
         working-directory: ./vulnerable
-        run: |
-          npx eslint . || true
+        run: npx eslint . || true
 
       - name: Run Semgrep SAST
         uses: semgrep/semgrep-action@v1
         with:
           config: p/security-audit
-	continue-on-error: true
+        continue-on-error: true
 
       - name: Build Vulnerable Docker Image
         working-directory: ./vulnerable
-        run: |
-          docker build -t euvwa-vulnerable .
+        run: docker build -t euvwa-vulnerable .
 
       - name: Generate SBOM
         uses: anchore/sbom-action@v0
@@ -76,4 +73,4 @@ jobs:
       - name: OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.12.0
         with:
-          target: 'http://localhost:3000'
+          target: http://localhost:3000
