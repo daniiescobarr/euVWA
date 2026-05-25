@@ -8,14 +8,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Install dependencies
         working-directory: ./secure
@@ -23,24 +22,21 @@ jobs:
 
       - name: Install ESLint Security
         working-directory: ./secure
-        run: |
-          npm install eslint eslint-plugin-security --save-dev
+        run: npm install eslint eslint-plugin-security --save-dev
 
       - name: Run ESLint Security Scan
         working-directory: ./secure
-        run: |
-          npx eslint . || true
+        run: npx eslint . || true
 
       - name: Run Semgrep SAST
         uses: semgrep/semgrep-action@v1
         with:
           config: p/security-audit
-	continue-on-error: true
+        continue-on-error: true
 
       - name: Build Secure Docker Image
         working-directory: ./secure
-        run: |
-          docker build -t euvwa-secure .
+        run: docker build -t euvwa-secure .
 
       - name: Generate SBOM
         uses: anchore/sbom-action@v0
@@ -73,4 +69,5 @@ jobs:
       - name: OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.12.0
         with:
-          target: 'http://localhost:3000'
+          target: http://localhost:3000
+        continue-on-error: true

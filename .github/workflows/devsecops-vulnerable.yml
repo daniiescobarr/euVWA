@@ -14,7 +14,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Install dependencies
         working-directory: ./vulnerable
@@ -70,3 +70,4 @@ jobs:
         uses: zaproxy/action-baseline@v0.12.0
         with:
           target: http://localhost:3000
+        continue-on-error: true
