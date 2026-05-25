@@ -1,10 +1,6 @@
 name: DevSecOps Vulnerable Pipeline
 
 on:
-  push:
-    branches:
-      - main
-      - vulnerable
   workflow_dispatch:
 
 jobs:
