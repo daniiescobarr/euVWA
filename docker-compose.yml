@@ -1,0 +1,18 @@
+services:
+  euvwa-secure:
+    build:
+      context: ./secure
+      dockerfile: Dockerfile
+    container_name: euvwa-secure
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    restart: unless-stopped
